@@ -1,0 +1,9 @@
+{
+	"name": "mango-stl",
+	"authors": [
+		"jython234"
+	],
+	"description": "A collection of useful D utility classes and functions.",
+	"copyright": "Copyright (C) 2016, jython234",
+	"license": "Zlib"
+}
