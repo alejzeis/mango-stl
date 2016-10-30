@@ -7,34 +7,36 @@ import std.conv;
 
 class Queue(T) {
     __gshared {
-        protected size_t counter = 0;
-        protected T[size_t] pointers;
+        protected size_t valueCounter = 0;
+        protected T[size_t] values;
+        
+        protected size_t head = 0;
     }
 
     void add(T val) @trusted {
         synchronized(this) {
-            pointers[counter++] = val;
-        }
-    }
-
-    void remove(size_t id) @trusted {
-        synchronized(this) {
-            pointers.remove(id);
+            values[valueCounter++] = val;
         }
     }
 
     void clear() @trusted {
         synchronized(this) {
-            counter = 0;
-            pointers.clear();
+            head = 0;
+            valueCounter = 0;
+            values.clear();
         }
     }
 
     T pop() @trusted {
+    	enforce(!isEmpty(), new Exception("Queue is empty!"));
         synchronized(this) {
-            auto v = pointers[0];
-            remove(0);
-            return v;
+            auto val = values[head];
+            head = head + 1;
+            return val;
         }
+    }
+    
+    bool isEmpty() {
+    	return values.length > 0;
     }
 }
