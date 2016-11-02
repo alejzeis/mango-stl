@@ -40,3 +40,39 @@ class Queue(T) {
     	return values.length > 0;
     }
 }
+
+class UnsafeQueue(T) {
+    __gshared {
+        protected size_t valueCounter = 0;
+        protected T[size_t] values;
+        
+        protected size_t head = 0;
+    }
+
+    void add(T val) @trusted nothrow {
+        synchronized(this) {
+            values[valueCounter++] = val;
+        }
+    }
+
+    void clear() @trusted nothrow {
+        synchronized(this) {
+            head = 0;
+            valueCounter = 0;
+            values.clear();
+        }
+    }
+
+    T pop() @trusted nothrow {
+    	enforce(!isEmpty(), new Exception("Queue is empty!"));
+        synchronized(this) {
+            auto val = values[head];
+            head = head + 1;
+            return val;
+        }
+    }
+    
+    bool isEmpty() @safe nothrow {
+    	return values.length > 0;
+    }
+}
