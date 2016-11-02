@@ -60,13 +60,12 @@ class UnsafeQueue(T) {
     }
 
     T pop() @trusted nothrow {
-    	enforce(!isEmpty(), new Exception("Queue is empty!"));
         auto val = values[head];
         head = head + 1;
         return val;
     }
     
-    bool isEmpty() @safe nothrow {
+    bool isEmpty() @trusted nothrow {
     	return values.length > 0;
     }
 }
