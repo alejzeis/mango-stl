@@ -50,26 +50,20 @@ class UnsafeQueue(T) {
     }
 
     void add(T val) @trusted nothrow {
-        synchronized(this) {
-            values[valueCounter++] = val;
-        }
+        values[valueCounter++] = val;
     }
 
     void clear() @trusted nothrow {
-        synchronized(this) {
-            head = 0;
-            valueCounter = 0;
-            values.clear();
-        }
+        head = 0;
+        valueCounter = 0;
+        values.clear();
     }
 
     T pop() @trusted nothrow {
     	enforce(!isEmpty(), new Exception("Queue is empty!"));
-        synchronized(this) {
-            auto val = values[head];
-            head = head + 1;
-            return val;
-        }
+        auto val = values[head];
+        head = head + 1;
+        return val;
     }
     
     bool isEmpty() @safe nothrow {
