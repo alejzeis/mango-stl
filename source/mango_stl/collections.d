@@ -14,13 +14,7 @@ class Queue(T) {
     }
 
     void add(T val) @trusted {
-		import std.stdio;
-		writeln("Adding Queue");
         synchronized(this) {
-			debug {
-				import std.stdio;
-				writeln("Adding Head: ", head, ", valueCounter ", valueCounter, " values ", values);
-			}
             values[valueCounter++] = val;
         }
     }
@@ -36,10 +30,6 @@ class Queue(T) {
     T pop() @trusted {
     	enforce(!isEmpty(), new Exception("Queue is empty!"));
         synchronized(this) {
-			debug {
-				import std.stdio;
-				writeln("Length: ", values.length, "Head: ", head, ", valueCounter ", valueCounter, " values ", values);
-			}
             auto val = values[head];
 			values.remove(head);
             head = head + 1;
@@ -72,6 +62,7 @@ class UnsafeQueue(T) {
 
     T pop() @trusted nothrow {
         auto val = values[head];
+		values.remove(head);
         head = head + 1;
         return val;
     }
