@@ -30,6 +30,10 @@ class Queue(T) {
     T pop() @trusted {
     	enforce(!isEmpty(), new Exception("Queue is empty!"));
         synchronized(this) {
+			debug {
+				import std.stdio;
+				writeln("Head: ", head, ", valueCounter ", valueCounter, " values ", values);
+			}
             auto val = values[head];
             head = head + 1;
             return val;
