@@ -15,6 +15,10 @@ class Queue(T) {
 
     void add(T val) @trusted {
         synchronized(this) {
+			debug {
+				import std.stdio;
+				writeln("Adding Head: ", head, ", valueCounter ", valueCounter, " values ", values);
+			}
             values[valueCounter++] = val;
         }
     }
