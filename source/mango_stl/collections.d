@@ -38,7 +38,7 @@ class Queue(T) {
         synchronized(this) {
 			debug {
 				import std.stdio;
-				writeln("Head: ", head, ", valueCounter ", valueCounter, " values ", values);
+				writeln("Length: ", values.length, "Head: ", head, ", valueCounter ", valueCounter, " values ", values);
 			}
             auto val = values[head];
 			values.remove(head);
