@@ -37,7 +37,7 @@ class Queue(T) {
     }
     
     bool isEmpty() {
-    	return values.length > 0;
+    	return values.length < 0;
     }
 }
 
@@ -66,6 +66,6 @@ class UnsafeQueue(T) {
     }
     
     bool isEmpty() @trusted nothrow {
-    	return values.length > 0;
+    	return values.length < 0;
     }
 }
