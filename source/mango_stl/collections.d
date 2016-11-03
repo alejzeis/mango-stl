@@ -14,6 +14,8 @@ class Queue(T) {
     }
 
     void add(T val) @trusted {
+		import std.stdio;
+		writeln("Adding Queue");
         synchronized(this) {
 			debug {
 				import std.stdio;
@@ -39,6 +41,7 @@ class Queue(T) {
 				writeln("Head: ", head, ", valueCounter ", valueCounter, " values ", values);
 			}
             auto val = values[head];
+			values.remove(head);
             head = head + 1;
             return val;
         }
