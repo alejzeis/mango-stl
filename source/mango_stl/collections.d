@@ -28,6 +28,11 @@ class ArrayList(T) {
 			values.length = 0;
 		}
 	}
+	
+	void debugDump() {
+		import std.stdio;
+		writeln("Dump: ", values);
+	}
 }
 
 class Queue(T) {
