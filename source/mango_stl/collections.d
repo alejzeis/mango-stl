@@ -6,6 +6,8 @@ import std.exception;
 import std.algorithm;
 import std.conv;
 
+private alias algorithm_remove = std.algorithm.remove;
+
 class ArrayList(T) {
 	__gshared {
 		protected T[] values;
@@ -19,7 +21,7 @@ class ArrayList(T) {
 	
 	void remove(size_t location) @trusted {
 		synchronized(this) {
-			this.values = remove(values, location);
+			this.values = algorithm_remove(values, location);
 		}
 	}
 	
