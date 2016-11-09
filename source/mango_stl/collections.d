@@ -3,7 +3,32 @@ module mango_stl.collections;
 import mango_stl.exception;
 
 import std.exception;
+import std.algorithm;
 import std.conv;
+
+class ArrayList(T) {
+	__gshared {
+		protected T[] values;
+	}
+	
+	void add(T val) @trusted {
+		synchronized(this) {
+			values ~= val;
+		}
+	}
+	
+	void remove(size_t location) @trusted {
+		synchronized(this) {
+			this.values = remove(values, location);
+		}
+	}
+	
+	void clear() @trusted {
+		synchronized(this) {
+			values.length = 0;
+		}
+	}
+}
 
 class Queue(T) {
     __gshared {
