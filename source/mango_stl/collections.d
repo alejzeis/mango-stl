@@ -13,6 +13,12 @@ class ArrayList(T) {
 		protected T[] values;
 	}
 	
+	void reserve(size_t amount) @trusted {
+	    synchronized(this) {
+	        values.reserve(amount);
+	    }
+	}
+	
 	void add(T val) @trusted {
 		synchronized(this) {
 			values ~= val;
