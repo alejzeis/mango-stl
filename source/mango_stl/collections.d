@@ -54,7 +54,7 @@ class Queue(T) {
     void add(T val) @trusted {
         import core.atomic : atomicOp;
         synchronized(this) {
-            values[atomicOp!"+="(this.valueCounter, 1)] = val;
+            values[atomicOp!"+="(this.valueCounter, 1)] = cast(shared) val;
         }
     }
 
@@ -73,7 +73,7 @@ class Queue(T) {
             auto val = values[head];
             values.remove(head);
             head = head + 1;
-            return val;
+            return cast(T) val;
         }
     }
     
@@ -85,7 +85,7 @@ class Queue(T) {
 	
 	void debugDump() {
 		import std.stdio;
-		writeln("Head: ", head, ", ", valueCounter, ", Values: ", values);
+		writeln("Head: ", head, ", ", valueCounter, ", Values: ", cast(T[size_t]) values);
 	}
 }
 
