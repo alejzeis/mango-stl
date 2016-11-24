@@ -66,10 +66,11 @@ class Queue(T) {
     }
 
     T pop() @trusted {
-    	enforce(!isEmpty(), new Exception("Queue is empty!"));
         synchronized(this) {
+            enforce(!isEmpty(), new Exception("Queue is empty!"));
+
             auto val = values[head];
-			values.remove(head);
+            values.remove(head);
             head = head + 1;
             return val;
         }
