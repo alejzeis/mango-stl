@@ -77,7 +77,9 @@ class Queue(T) {
     }
     
     bool isEmpty() {
-    	return values.length <= 0;
+	    synchronized(this) {
+    	    return values.length <= 0;
+        }
     }
 	
 	void debugDump() {
