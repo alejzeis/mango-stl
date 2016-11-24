@@ -21,7 +21,7 @@ class ArrayList(T) {
 	
 	void add(T val) @trusted {
 		synchronized(this) {
-			values ~= val;
+			values ~= cast(shared) val;
 		}
 	}
 	
@@ -99,7 +99,7 @@ class UnsafeQueue(T) {
 
     void add(T val) @trusted nothrow {
         import core.atomic : atomicOp;
-        values[atomicOp!"+="(this.valueCounter, 1)] = val;
+        values[atomicOp!"+="(this.valueCounter, 1)] = cast(shared) val;
     }
 
     void clear() @trusted nothrow {
@@ -112,7 +112,7 @@ class UnsafeQueue(T) {
         auto val = values[head];
 		values.remove(head);
         head = head + 1;
-        return val;
+        return cast(T) val;
     }
     
     bool isEmpty() @trusted nothrow {
