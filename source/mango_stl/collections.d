@@ -9,7 +9,7 @@ import std.conv;
 private alias algorithm_remove = std.algorithm.remove;
 
 class ArrayList(T) {
-	__gshared {
+	shared {
 		protected T[] values;
 	}
 	
@@ -44,7 +44,7 @@ class ArrayList(T) {
 }
 
 class Queue(T) {
-    __gshared {
+    shared {
         protected size_t valueCounter = 0;
         protected T[size_t] values;
         
@@ -52,8 +52,9 @@ class Queue(T) {
     }
 
     void add(T val) @trusted {
+        import core.atomic : atomicOp;
         synchronized(this) {
-            values[valueCounter++] = val;
+            values[atomicOp!"+="(this.valueCounter, 1)] = val;
         }
     }
 
@@ -67,7 +68,7 @@ class Queue(T) {
 
     T pop() @trusted {
         synchronized(this) {
-            //enforce(!isEmpty(), new Exception("Queue is empty!"));
+            enforce(!isEmpty(), new Exception("Queue is empty!"));
 
             auto val = values[head];
             values.remove(head);
@@ -89,7 +90,7 @@ class Queue(T) {
 }
 
 class UnsafeQueue(T) {
-    __gshared {
+    shared {
         protected size_t valueCounter = 0;
         protected T[size_t] values;
         
@@ -97,7 +98,8 @@ class UnsafeQueue(T) {
     }
 
     void add(T val) @trusted nothrow {
-        values[valueCounter++] = val;
+        import core.atomic : atomicOp;
+        values[atomicOp!"+="(this.valueCounter, 1)] = val;
     }
 
     void clear() @trusted nothrow {
